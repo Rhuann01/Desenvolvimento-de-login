@@ -1,0 +1,28 @@
+generator client {
+  provider   = "prisma-client"
+  engineType = "client"
+  output     = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        Int     @id @default(autoincrement())
+  email     String  @unique
+  UserName  String?
+  password  String
+  verified  Boolean @default(false)
+  code      Int?
+  posts     Post[]
+  role      String @default("CLIENT")
+}
+
+model Post {
+  id       Int    @id @default(autoincrement())
+  titile   String
+  content  String?
+  autor    User   @relation(fields: [autorId], references: [id])
+  autorId  Int
+}
